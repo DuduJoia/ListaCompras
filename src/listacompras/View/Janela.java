@@ -77,6 +77,7 @@ public class Janela extends javax.swing.JFrame {
         });
 
         btnRemover.setText("Remover");
+        btnRemover.setToolTipText("Digite o nome do produto e clique nesse botão para remove-lo dá lista");
         btnRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoverActionPerformed(evt);
@@ -175,8 +176,13 @@ public class Janela extends javax.swing.JFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         try {
-            prod.adicionaProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
-
+                if(prod.verificaLista(txtProduto.getText())){
+                    prod.atualizaQuantidade(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
+                    
+                } else {
+                    prod.adicionaProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
+                }
+            
             atualizaTabela();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Você deve preencher o campo quantidade");

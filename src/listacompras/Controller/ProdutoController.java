@@ -9,9 +9,9 @@ public class ProdutoController {
     Produto prod;
     ArrayList<Produto> lista = new ArrayList<>();
 
-    public ProdutoController(){
+    public ProdutoController() {
     }
-    
+
     public void setNomeProdutoController(String nomeProduto) {
         try {
             if (nomeProduto.length() > 0 && nomeProduto != "") {
@@ -66,9 +66,27 @@ public class ProdutoController {
     }
 
     public void limpaLista() {
-        for (Produto p : lista) {
-            p.setNomeProduto("");
-            p.setQuantidade(0);
+        lista.clear();
+    }
+
+    public void atualizaQuantidade(String produto, int valor) {
+        if (lista != null) {
+            for (Produto p : lista) {
+                if (p.getNomeProduto().contains(produto)) {
+                    p.setQuantidade(p.getQuantidade() + valor);
+                }
+            }
         }
+    }
+
+    public boolean verificaLista(String Produto) {
+        boolean x = false;
+        for (Produto p : lista) {
+            if (p.getNomeProduto().contains(Produto)) {
+                x = true;
+            } else {
+                x = false;
+            }
+        } return x;
     }
 }

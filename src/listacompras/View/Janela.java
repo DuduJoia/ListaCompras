@@ -19,6 +19,8 @@ public class Janela extends javax.swing.JFrame {
 
     ArrayList<Produto> listaProdutos;
     ProdutoController prod = new ProdutoController();
+    int index;
+    int contador = 0;
 
     public Janela() {
         initComponents();
@@ -26,15 +28,17 @@ public class Janela extends javax.swing.JFrame {
 
     public void atualizaTabela() {
         try {
+            listaProdutos = null;
+            listaProdutos = prod.getLista();
             DefaultTableModel model = (DefaultTableModel) tabela.getModel();
             model.setRowCount(0);
             String[] postagem = {"", ""};
 
             for (Produto p : listaProdutos) {
                 postagem[0] = p.getNomeProduto();
-                if(p.getQuantidade() > 0){
-                postagem[1] = String.valueOf(p.getQuantidade());
-            }
+                if (p.getQuantidade() > 0) {
+                    postagem[1] = String.valueOf(p.getQuantidade());
+                }
                 model.addRow(postagem);
 
             }
@@ -48,7 +52,6 @@ public class Janela extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtUnidades = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtProduto = new javax.swing.JTextField();
         btnAdicionar = new javax.swing.JButton();
@@ -56,6 +59,7 @@ public class Janela extends javax.swing.JFrame {
         btnLimpar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
+        txtUnidades = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,6 +103,12 @@ public class Janela extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabela);
 
+        txtUnidades.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUnidadesKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,26 +117,28 @@ public class Janela extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(26, 26, 26)
                                 .addComponent(txtProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +148,7 @@ public class Janela extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -153,29 +165,49 @@ public class Janela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+
         txtProduto.setText("");
         txtUnidades.setText("");
         prod.limpaLista();
-        listaProdutos = prod.getLista();
         atualizaTabela();
+
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        prod.setProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
-        listaProdutos = prod.getLista();
-        atualizaTabela();
+        try {
+            prod.adicionaProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
+
+            atualizaTabela();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Você deve preencher o campo quantidade");
+        }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        for(Produto p : listaProdutos){
-            if( p.getNomeProduto().contains(txtProduto.getText())){
-                listaProdutos.remove(p);
-                atualizaTabela();
+        // essa parte comentada dá erro, porque um elemento do ArrayList fica nulo no meio do for each
+        //    for (Produto p : listaProdutos) {
+        //        if (p.getNomeProduto().contains(txtProduto.getText())) {
+        //            listaProdutos.remove(p);
+        //            atualizaTabela();
+        //        }
+        //    }
+        for (Produto p : listaProdutos) {
+            if (p.getNomeProduto().contains(txtProduto.getText())) {
+                index = listaProdutos.indexOf(p);
             }
-            
-            
+
         }
+        listaProdutos.remove(index);
+        atualizaTabela();
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void txtUnidadesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnidadesKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtUnidadesKeyTyped
 
     public static void main(String args[]) {
 

@@ -5,10 +5,13 @@ import javax.swing.JOptionPane;
 import listacompras.Model.Produto;
 
 public class ProdutoController {
-    
-    Produto prod;
-    ArrayList<Produto> lista = new ArrayList<Produto>();
 
+    Produto prod;
+    ArrayList<Produto> lista = new ArrayList<>();
+
+    public ProdutoController(){
+    }
+    
     public void setNomeProdutoController(String nomeProduto) {
         try {
             if (nomeProduto.length() > 0 && nomeProduto != "") {
@@ -36,23 +39,36 @@ public class ProdutoController {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
-    public void setProduto(String nomeProduto, int quantidade){
-        if(nomeProduto.length() > 0 && quantidade > 0){
+
+    public void adicionaProduto(String nomeProduto, int quantidade) {
+        if (nomeProduto.length() > 0 && quantidade > 0) {
             prod = new Produto(nomeProduto, quantidade);
             lista.add(prod);
-        }
-    }
-    
-    public ArrayList<Produto> getLista(){
-    return lista;
-    }
-    
-    public void limpaLista(){
-        for(Produto p: lista){
-        p.setNomeProduto("");
-        p.setQuantidade(0);
+        } else {
+            String erroNome = " ";
+            String erroQuantidade = " ";
+            if (nomeProduto.length() == 0) {
+                erroNome = "você deve preencher o nome do Produto. ";
+            }
+            if (quantidade == 0) {
+                erroQuantidade = "a quantidade deve ser maior que 0";
+            }
+            JOptionPane.showMessageDialog(null, "Erro: " + erroNome + erroQuantidade);
         }
     }
 
+    public void SetLista(ArrayList<Produto> listaProdutos) {
+        lista = listaProdutos;
+    }
+
+    public ArrayList<Produto> getLista() {
+        return lista;
+    }
+
+    public void limpaLista() {
+        for (Produto p : lista) {
+            p.setNomeProduto("");
+            p.setQuantidade(0);
+        }
+    }
 }

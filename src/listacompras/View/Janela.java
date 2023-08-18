@@ -104,6 +104,11 @@ public class Janela extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabela);
 
+        txtUnidades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUnidadesActionPerformed(evt);
+            }
+        });
         txtUnidades.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtUnidadesKeyTyped(evt);
@@ -208,12 +213,12 @@ public class Janela extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void txtUnidadesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnidadesKeyTyped
-        char c = evt.getKeyChar();
 
-        if (!Character.isDigit(c)) {
-            evt.consume();
-        }
     }//GEN-LAST:event_txtUnidadesKeyTyped
+
+    private void txtUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnidadesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUnidadesActionPerformed
 
     public static void main(String args[]) {
 

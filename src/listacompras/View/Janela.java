@@ -187,7 +187,7 @@ public class Janela extends javax.swing.JFrame {
             } else {
                 prod.adicionaProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
             }
-            
+
             txtProduto.setText("");
             txtUnidades.setText("");
             atualizaTabela();
@@ -199,23 +199,27 @@ public class Janela extends javax.swing.JFrame {
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         // essa parte comentada dá erro, porque um elemento do ArrayList fica nulo no meio do for each
         //    for (Produto p : listaProdutos) {
-        //        if (p.getNomeProduto().contains(txtProduto.getText())) {
+        //        if (p.getNomeProduto().equals(txtProduto.getText())) {
         //            listaProdutos.remove(p);
         //            atualizaTabela();
         //        }
         //    }
         for (Produto p : listaProdutos) {
-            int row = tabela.getSelectedRow();
-            tabela.getValueAt(row, 0);
-            
-            if (p.getNomeProduto().equals(txtProduto.getText())) {
+            if (!tabela.getSelectionModel().isSelectionEmpty()) {
+                
+                int row = tabela.getSelectedRow();
+                tabela.getValueAt(row, 0);
+                
+                if(p.getNomeProduto().equals(tabela.getValueAt(row, 0))){
                 index = listaProdutos.indexOf(p);
+                }
+                
+            } else if (p.getNomeProduto().equals(txtProduto.getText())) {
+                index = listaProdutos.indexOf(p);
+                System.out.println(index);
+
             }
-            else if(p.getNomeProduto().equals(tabela.getValueAt(row, 0))){
-                index = listaProdutos.indexOf(p);
-                    }
-            
-            
+
         }
 
         listaProdutos.remove(index);

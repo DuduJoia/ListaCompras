@@ -72,7 +72,7 @@ public class ProdutoController {
     public void atualizaQuantidade(String produto, int valor) {
         if (lista != null) {
             for (Produto p : lista) {
-                if (p.getNomeProduto().contains(produto)) {
+                if (p.getNomeProduto().equals(produto)) {
                     p.setQuantidade(p.getQuantidade() + valor);
                 }
             }
@@ -82,10 +82,8 @@ public class ProdutoController {
     public boolean verificaLista(String Produto) {
         boolean x = false;
         for (Produto p : lista) {
-            if (p.getNomeProduto().contains(Produto)) {
+            if (p.getNomeProduto().equals(Produto)) {
                 x = true;
-            } else {
-                x = false;
             }
         } return x;
     }

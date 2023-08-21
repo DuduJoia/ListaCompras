@@ -181,13 +181,15 @@ public class Janela extends javax.swing.JFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         try {
-                if(prod.verificaLista(txtProduto.getText())){
-                    prod.atualizaQuantidade(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
-                    
-                } else {
-                    prod.adicionaProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
-                }
+            if (prod.verificaLista(txtProduto.getText())) {
+                prod.atualizaQuantidade(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
+
+            } else {
+                prod.adicionaProduto(txtProduto.getText(), Integer.parseInt(txtUnidades.getText()));
+            }
             
+            txtProduto.setText("");
+            txtUnidades.setText("");
             atualizaTabela();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Você deve preencher o campo quantidade");
@@ -203,17 +205,29 @@ public class Janela extends javax.swing.JFrame {
         //        }
         //    }
         for (Produto p : listaProdutos) {
-            if (p.getNomeProduto().contains(txtProduto.getText())) {
+            int row = tabela.getSelectedRow();
+            tabela.getValueAt(row, 0);
+            
+            if (p.getNomeProduto().equals(txtProduto.getText())) {
                 index = listaProdutos.indexOf(p);
             }
-
+            else if(p.getNomeProduto().equals(tabela.getValueAt(row, 0))){
+                index = listaProdutos.indexOf(p);
+                    }
+            
+            
         }
+
         listaProdutos.remove(index);
         atualizaTabela();
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void txtUnidadesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnidadesKeyTyped
+        char c = evt.getKeyChar();
 
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtUnidadesKeyTyped
 
     private void txtUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnidadesActionPerformed
